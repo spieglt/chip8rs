@@ -1,6 +1,8 @@
 # chip8rs
 CHIP-8 in Rust to learn the basics of SDL and emulators.
 
+<img src="./tetris.png">
+
 Run with 
 
 `$ cargo run roms/pong.ch8`
