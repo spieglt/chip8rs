@@ -1,5 +1,5 @@
 [package]
-name = "chip8"
+name = "chip8rs"
 version = "0.1.0"
 authors = ["Theron Spiegl <tspiegl@gmail.com>"]
 edition = "2018"

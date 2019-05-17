@@ -18,8 +18,12 @@ const CPU_HZ: 			u32 = 500;
 const STAT_FREQUENCY:	u32 = 5;	// every x seconds
 
 const DEBUG: bool = false;
+const STEP: bool = false;
 
 fn main() -> Result<(), String> {
+
+	let stdin = std::io::stdin();
+	let mut buf = String::new();
 
 	println!("EMULATING");
 	let mut chip = chip8::Chip8::new();
@@ -65,6 +69,9 @@ fn main() -> Result<(), String> {
 		loop_time = Instant::now();
 		// if now is after cpu_time, run a cycle and extend the deadline.
 		if loop_time > cpu_time {
+			if STEP {
+				stdin.read_line(&mut buf);
+			}
 			chip.cycle();
 			extend(&mut cpu_time, CPU_HZ);
 			cpu_cycles += 1;
@@ -78,9 +85,7 @@ fn main() -> Result<(), String> {
 		}
 
 		// graphics
-		if chip.reg[15] != 0 {
-			graphics_driver.draw(chip.gfx)?;
-		}
+		graphics_driver.draw(chip.gfx)?;
 
 		// input
 		input::get_keys(&mut chip.key, &event_pump);
