@@ -12,13 +12,10 @@ or
 Requires https://rust-sdl2.github.io/rust-sdl2/sdl2/. 
 
 Buttons are:
-
+~~~~
 1234
-
 QWER
-
 ASDF
-
 ZXCV
-
+~~~~
 Fixed graphics problem that was preventing Tetris and others from running smoothly.
