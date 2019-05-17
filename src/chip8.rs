@@ -166,12 +166,12 @@ impl Chip8 {
 			// WEIRD UNDOCUMENTED LEGACY ONE. TODO: add legacy mode?
 			(0x8, _, _, 0x6) => {
 				// first attempt. newer version?
-				// self.reg[0xF] = self.reg[_x] & 0x1;
-				// self.reg[_x] >>= 1;
+				self.reg[0xF] = self.reg[_x] & 0x1;
+				self.reg[_x] >>= 1;
 
 				// legacy? according to https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Instruction-Set
-				self.reg[0xF] = self.reg[_y] & 0x1;
-				self.reg[_x] = self.reg[_y] >> 1;
+				// self.reg[0xF] = self.reg[_y] & 0x1;
+				// self.reg[_x] = self.reg[_y] >> 1;
 
 				self.pc += 2;
 			},
@@ -186,13 +186,13 @@ impl Chip8 {
 			// UNDOCUMENTED. store the most significant bit of reg x in reg f and left-shift reg x by 1.
 			(0x8, _, _, 0xE) => {
 				// according to https://en.wikipedia.org/wiki/CHIP-8#Opcode_table
-				// self.reg[0xF] = (self.reg[_x] & (1 << 7)) >> 7;
-				// self.reg[_x] <<= 1;
+				self.reg[0xF] = (self.reg[_x] & (1 << 7)) >> 7;
+				self.reg[_x] <<= 1;
 
 				// according to https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Instruction-Set
-				self.reg[0xF] = (self.reg[_y] & (1 << 7)) >> 7;
-				self.reg[_x] = self.reg[_y] << 1;
-				self.pc += 2;
+				// self.reg[0xF] = (self.reg[_y] & (1 << 7)) >> 7;
+				// self.reg[_x] = self.reg[_y] << 1;
+				// self.pc += 2;
 			},
 
 			// skips the next instruction if reg x doesn't equal reg y.
