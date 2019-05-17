@@ -18,6 +18,7 @@ pub struct Chip8 {
 	sp: u16,										// stack pointer
 	pub delay_timer: u8,
 	pub sound_timer: u8,
+	pub draw_flag: bool,							// set when clear screen or draw opcodes are called
 }
 
 impl Chip8 {
@@ -33,6 +34,7 @@ impl Chip8 {
 			sp: 0,
 			delay_timer: 0,
 			sound_timer: 0,
+			draw_flag: false,
 		};
 		// load font set
 		for (i, v) in FONT_SET.iter().enumerate() {
@@ -68,6 +70,7 @@ impl Chip8 {
 
 			// clear screen.
 			(0x0, 0x0, 0xE, 0x0) => {
+				self.draw_flag = true;
 				self.gfx.iter_mut().for_each(|b| *b = 0);
 				self.pc += 2;
 			},
@@ -224,6 +227,7 @@ impl Chip8 {
 			// draw sprites at coordinate reg x, reg y (NOT X AND Y AS I ORIGINALLY DID) a width of 8 and height of z.
 			// get z sprites from memory starting at location idx.
 			(0xD, _, _, _) => {
+				self.draw_flag = true;
 				let mut pixel_unset = false;
 				let sprites = &self.memory[self.idx as usize .. (self.idx + (z as u16)) as usize];
 				for i in 0.._z {	// for each row of 8 pixels (sprite)

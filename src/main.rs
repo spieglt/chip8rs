@@ -85,7 +85,10 @@ fn main() -> Result<(), String> {
 		}
 
 		// graphics
-		graphics_driver.draw(chip.gfx)?;
+		if chip.draw_flag {
+			graphics_driver.draw(chip.gfx)?;
+			chip.draw_flag = false;
+		}
 
 		// input
 		input::get_keys(&mut chip.key, &event_pump);
