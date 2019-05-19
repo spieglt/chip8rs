@@ -195,7 +195,7 @@ impl Chip8 {
 				// according to https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Instruction-Set
 				// self.reg[0xF] = (self.reg[_y] & (1 << 7)) >> 7;
 				// self.reg[_x] = self.reg[_y] << 1;
-				// self.pc += 2;
+				self.pc += 2;
 			},
 
 			// skips the next instruction if reg x doesn't equal reg y.
