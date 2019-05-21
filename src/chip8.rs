@@ -325,17 +325,17 @@ impl Chip8 {
 				self.pc += 2;
 			},
 
-			// set idx to location of font char x.
+			// set idx to location of font char IN REGISTER X (not x).
 			(0xF, _, 0x2, 0x9) => {
-				self.idx = FONT_LOCATION + (x as u16 * 5);
+				self.idx = FONT_LOCATION + (self.reg[_x] as u16 * 5);
 				self.pc += 2;
 			},
 
 			// store the binary-coded decimal representation of reg x in memory[idx..idx+2].
 			(0xF, _, 0x3, 0x3) => {
-				self.memory[self.idx as usize] = self.reg[_x] % 100;
-				self.memory[self.idx as usize +1] = (self.reg[_x] % 100) / 10;
-				self.memory[self.idx as usize +2] = self.reg[_x] % 10;
+				self.memory[self.idx as usize] = self.reg[_x] / 100;
+				self.memory[self.idx as usize + 1] = (self.reg[_x] % 100) / 10;
+				self.memory[self.idx as usize + 2] = self.reg[_x] % 10;
 				self.pc += 2;
 			},
 
@@ -355,7 +355,10 @@ impl Chip8 {
 				self.pc += 2;
 			},
 
-			oopsie => println!("illegal instruction: {:02x?}", oopsie),
+			oopsie => {
+				println!("illegal instruction: {:02x?}", oopsie);
+				self.pc += 2;
+			},
 
 		};
 	}
